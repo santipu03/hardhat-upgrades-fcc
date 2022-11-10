@@ -11,6 +11,7 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
     const box = await deploy("Box", {
         from: deployer,
         args: [],
+        log: true,
         waitConfirmations: network.config.blockConfirmations || 1,
         proxy: {
             proxyContract: "OpenZeppelinTransparentProxy",
@@ -20,6 +21,8 @@ module.exports = async ({ deployments, getNamedAccounts }) => {
             },
         },
     })
+
+    log("---------------------")
 
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         await verify(box.address, [])
